@@ -23,7 +23,12 @@ In many agricultural sectors, farmers often harvest crops before the pesticide's
 * **Deployment:** Netlify Drop
 
 ## 📸 Screenshots
-*(Add your screenshots here later to make it look even better!)*
+<img width="318" height="275" alt="image" src="https://github.com/user-attachments/assets/4d6e2fb2-65c1-48e1-8172-9ad71142f98b" />
+<img width="320" height="593" alt="image" src="https://github.com/user-attachments/assets/018869d5-4394-4697-81f4-85c14ab40c0b" />
+<img width="306" height="279" alt="image" src="https://github.com/user-attachments/assets/e1c0dbfe-12bd-46ed-9182-991b54efffe8" />
+<img width="305" height="575" alt="image" src="https://github.com/user-attachments/assets/421a3b49-1fc3-4ea4-a541-dae0e25d0544" />
+<img width="460" height="521" alt="image" src="https://github.com/user-attachments/assets/68ca59da-55d5-45ed-937a-ff56f01f7c9c" />
+
 
 ## 🚀 How to Run Locally
 1. Clone this repository:
