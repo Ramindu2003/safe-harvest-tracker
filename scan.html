@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Scanner - Safe Harvest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans flex items-center justify-center min-h-screen">
+
+    <div id="result-card" class="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden p-8 text-center hidden">
+        
+        <div id="icon" class="text-6xl mb-4"></div>
+        <h1 id="status-title" class="text-3xl font-bold mb-2">Loading...</h1>
+        <p id="status-message" class="text-gray-600 mb-6 text-lg"></p>
+        
+        <div class="bg-gray-50 rounded-lg p-4 text-left border">
+            <p class="text-sm text-gray-500">Crop: <span id="lbl-crop" class="font-bold text-gray-800"></span></p>
+            <p class="text-sm text-gray-500">Chemical Applied: <span id="lbl-chem" class="font-bold text-gray-800"></span></p>
+            <p class="text-sm text-gray-500">Applied Date: <span id="lbl-date" class="font-bold text-gray-800"></span></p>
+            <p class="text-sm text-gray-500">Safe to eat after: <span id="lbl-safe-date" class="font-bold text-blue-600"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const crop = urlParams.get('crop');
+        const chem = urlParams.get('chem');
+        const dateApplied = urlParams.get('date');
+        const phiDays = parseInt(urlParams.get('phi'));
+
+        if(crop && chem && dateApplied && phiDays) {
+            
+            // Show card
+            document.getElementById('result-card').classList.remove('hidden');
+            
+            // Calculate Dates
+            const appliedDateObj = new Date(dateApplied);
+            const safeDateObj = new Date(dateApplied);
+            safeDateObj.setDate(safeDateObj.getDate() + phiDays);
+            
+            const today = new Date();
+
+            // Populate Labels
+            document.getElementById('lbl-crop').innerText = crop;
+            document.getElementById('lbl-chem').innerText = chem;
+            document.getElementById('lbl-date').innerText = appliedDateObj.toDateString();
+            document.getElementById('lbl-safe-date').innerText = safeDateObj.toDateString();
+
+            const card = document.getElementById('result-card');
+            const icon = document.getElementById('icon');
+            const title = document.getElementById('status-title');
+            const message = document.getElementById('status-message');
+
+            // Logic: Is it safe today?
+            if(today >= safeDateObj) {
+                // SAFE
+                card.classList.add('border-t-8', 'border-green-500');
+                icon.innerText = "✅";
+                title.innerText = "Safe to Eat!";
+                title.classList.add('text-green-600');
+                message.innerText = "The chemical safe interval has passed. This is safe for consumption.";
+            } else {
+                // UNSAFE
+                card.classList.add('border-t-8', 'border-red-600');
+                icon.innerText = "🛑";
+                title.innerText = "WARNING!";
+                title.classList.add('text-red-600');
+                
+                const daysLeft = Math.ceil((safeDateObj - today) / (1000 * 60 * 60 * 24));
+                message.innerHTML = `Chemicals are still active! Do not consume for another <b>${daysLeft} days</b>.`;
+            }
+        } else {
+            document.write("<h2 class='text-center mt-10 text-xl'>Invalid QR Code. Data missing.</h2>");
+        }
+    </script>
+</body>
+</html>
